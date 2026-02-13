@@ -1,0 +1,303 @@
+body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #fcfcfc;
+    font-size: 16px;
+}
+
+#fireworks-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    z-index: 1;
+    pointer-events: none;
+}
+
+#center-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(2rem, 10vw, 5rem);
+    color: #e60026;
+    font-family: 'Arial Black', Arial, sans-serif;
+    text-shadow: 2px 2px 8px #ffb3b3;
+    z-index: 2;
+    letter-spacing: clamp(0.2rem, 2vw, 0.5rem);
+    user-select: none;
+    display: flex;
+    gap: clamp(0.2rem, 2vw, 0.5rem);
+    pointer-events: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0 10px;
+    text-align: center;
+}
+
+.letter {
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+/* Tus estilos del árbol exactamente como los tienes */
+.tree-container {
+    width: 92vw !important;
+    height: 62vw !important;
+    max-width: 98vw;
+    max-height: 80vw;
+    min-width: 180px;
+    min-height: 180px;
+    position: absolute;
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+.tree-container svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.tree-container svg path {
+    transition: fill-opacity 0.5s, stroke-dashoffset 1.2s;
+}
+
+.tree-container svg.move-and-scale {
+    transition: transform 1.2s cubic-bezier(.77,0,.18,1);
+    transform: translateY(60px) scale(1.18);
+}
+
+/* Tus estilos del texto de dedicatoria */
+.dedication-text {
+    position: absolute;
+    top: 7vw;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 92vw;
+    width: 92vw;
+    font-size: clamp(0.9rem, 4vw, 1.05rem);
+    text-align: center;
+    color: #000000;
+    font-family: 'Courier New', Courier, monospace;
+    white-space: pre-line;
+    z-index: 3;
+    opacity: 0;
+    pointer-events: none;
+    background: rgba(255,255,255,0.92);
+    padding: 1em;
+    border-radius: 0.7em;
+    box-shadow: 0 2px 16px #e6002611;
+    line-height: 1.5;
+    max-height: 35vh;
+    overflow-y: auto;
+    transition: opacity 0.6s;
+}
+
+.dedication-text.typing {
+    opacity: 1;
+    animation: fadeInText 0.6s;
+}
+
+@keyframes fadeInText {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+#floating-objects {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Tus estilos de pétalos */
+.floating-petal {
+    position: absolute;
+    will-change: transform, opacity;
+    opacity: 0.85;
+    pointer-events: none;
+    width: 13px;
+    height: 18px;
+    background: radial-gradient(ellipse at 60% 30%, #ffd6e0 60%, #ff69b4 100%);
+    border-radius: 60% 40% 60% 40% / 60% 60% 40% 40%;
+}
+
+/* Tus estilos de firma */
+.signature {
+    position: static;
+    display: block;
+    margin: 2.2em auto 0 auto;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    font-family: 'Dancing Script', 'Pacifico', cursive, sans-serif;
+    font-size: clamp(1.1rem, 5vw, 1.25rem);
+    color: #e60026;
+    opacity: 0;
+    z-index: 5;
+    white-space: pre-wrap;
+    word-break: break-word;
+    pointer-events: none;
+    transition: opacity 0.7s;
+    text-align: center;
+    line-height: 1.3;
+    max-width: 100%;
+    padding: 0 10px;
+}
+
+.signature.visible {
+    opacity: 1;
+    animation: signature-draw 2.2s steps(24) forwards;
+}
+
+@keyframes signature-draw {
+    from { clip-path: inset(0 100% 0 0); }
+    to { clip-path: inset(0 0 0 0); }
+}
+
+/* Tus estilos del contador */
+.countdown {
+    position: fixed;
+    left: 50%;
+    bottom: 10vw;
+    transform: translateX(-50%);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: clamp(0.85rem, 4vw, 0.98rem);
+    min-width: 60vw;
+    max-width: 92vw;
+    width: auto;
+    text-align: center;
+    padding: 0.5em 0.7em;
+    border-radius: 1em;
+    background: #fff8;
+    box-shadow: 0 2px 8px #e6002611;
+    z-index: 6;
+    pointer-events: none;
+    letter-spacing: 0.05em;
+    transition: opacity 0.8s cubic-bezier(.77,0,.18,1), transform 0.8s cubic-bezier(.77,0,.18,1);
+    opacity: 0;
+    transform: translateX(-50%) translateY(30px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.countdown.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Media query para tablets */
+@media (min-width: 701px) and (max-width: 1024px) {
+    .tree-container {
+        width: 70vw !important;
+        height: 47vw !important;
+    }
+    
+    .tree-container svg.move-and-scale {
+        transform: translateY(40px) scale(1.15);
+    }
+    
+    .dedication-text {
+        top: 5vw;
+        font-size: 1rem;
+    }
+    
+    .countdown {
+        bottom: 5vw;
+    }
+}
+
+/* Tu media query para móviles */
+@media (max-width: 700px) {
+    .signature {
+        margin: 2em auto 0 auto;
+        font-size: 1.2rem;
+    }
+    
+    #center-text {
+        top: 15%;
+        font-size: clamp(1.5rem, 8vw, 3rem);
+    }
+}
+
+/* Móviles muy pequeños */
+@media (max-width: 380px) {
+    .tree-container {
+        width: 95vw !important;
+        height: 64vw !important;
+    }
+    
+    .tree-container svg.move-and-scale {
+        transform: translateY(50px) scale(1.12);
+    }
+    
+    .dedication-text {
+        top: 8vw;
+        font-size: 0.9rem;
+        padding: 0.8em;
+        max-height: 30vh;
+    }
+    
+    .signature {
+        font-size: 1.1rem;
+        margin-top: 1.8em;
+    }
+    
+    #center-text {
+        font-size: 1.3rem;
+        top: 12%;
+    }
+    
+    .countdown {
+        bottom: 8vw;
+        font-size: 0.8rem;
+        min-width: 70vw;
+    }
+}
+
+/* Orientación horizontal */
+@media (max-width: 900px) and (orientation: landscape) {
+    .tree-container {
+        width: 50vh !important;
+        height: 34vh !important;
+    }
+    
+    .tree-container svg.move-and-scale {
+        transform: translateY(20px) scale(1.1);
+    }
+    
+    .dedication-text {
+        top: 5%;
+        max-width: 70vw;
+        max-height: 40vh;
+        font-size: 0.9rem;
+    }
+    
+    #center-text {
+        top: 50%;
+        font-size: 2rem;
+    }
+    
+    .countdown {
+        bottom: 5%;
+    }
+    
+    .signature {
+        margin-top: 1.5em;
+    }
+}
+
+/* Fuentes */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Pacifico&display=swap');
